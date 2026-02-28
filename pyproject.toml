@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neuroutils"
+version = "0.1.0"
+description = "Toolkit for neuron morphology processing, validation, and analysis."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "ke1chanf", email = "kechanf@gmail.com" }
+]
+keywords = ["neuroscience", "morphology", "swc", "neuron", "analysis"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2.2",
+  "mypy>=1.11",
+  "pre-commit>=3.8",
+  "pytest>=7.3",
+  "pytest-cov>=5.0",
+  "ruff>=0.6"
+]
+
+[project.urls]
+Homepage = "https://github.com/<your-org>/neuroutils"
+Repository = "https://github.com/<your-org>/neuroutils"
+Issues = "https://github.com/<your-org>/neuroutils/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["neuroutils*"]
+
+[tool.setuptools.package-data]
+neuroutils = ["py.typed"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+show_error_codes = true
+pretty = true
+
+[tool.coverage.run]
+source = ["neuroutils"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

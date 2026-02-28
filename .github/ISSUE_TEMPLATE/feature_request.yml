@@ -1,0 +1,22 @@
+name: Feature request
+description: Propose a new capability.
+labels: [enhancement]
+body:
+  - type: input
+    id: motivation
+    attributes:
+      label: Motivation
+      placeholder: What problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      placeholder: Describe the API or workflow you want.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
