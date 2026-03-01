@@ -83,7 +83,3 @@ def get_center(img: np.ndarray, w: int | None = None, h: int | None = None, d: i
         return np.array([w0 / 2.0, h0 / 2.0, d0 / 2.0], dtype=np.float64)
     return np.array([float(w) / 2.0, float(h) / 2.0, float(d) / 2.0], dtype=np.float64)
 
-
-def ccf2stereotactic_mask_res25(mask_file: str | Path, stereo_file: str | Path | None = None) -> np.ndarray:
-    """Compatibility alias for CCF->stereotactic conversion."""
-    return ccf_to_stereotactic_mask_res25(mask_file, stereo_file=stereo_file)

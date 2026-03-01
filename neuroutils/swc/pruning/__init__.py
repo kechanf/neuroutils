@@ -3,7 +3,6 @@
 from neuroutils.swc.pruning.short_branches import prune_short_leaf_branches
 from neuroutils.swc.pruning.spatial import (
     crop_sphere_from_soma,
-    crop_spheric_from_soma,
     crop_tree_by_bbox,
     is_in_bbox,
     is_in_box,
@@ -15,7 +14,6 @@ from neuroutils.swc.pruning.spatial import (
 
 __all__ = [
     "crop_sphere_from_soma",
-    "crop_spheric_from_soma",
     "crop_tree_by_bbox",
     "is_in_bbox",
     "is_in_box",

@@ -13,13 +13,3 @@ def file_prefix(filepath: str | Path) -> str:
 def file_extension(filepath: str | Path) -> str:
     """Return filename suffix including leading dot."""
     return Path(filepath).suffix
-
-
-def get_file_prefix(filepath: str | Path) -> str:
-    """Compatibility alias for filename stem."""
-    return file_prefix(filepath)
-
-
-def get_file_extension(filepath: str | Path) -> str:
-    """Compatibility alias for filename extension."""
-    return file_extension(filepath)

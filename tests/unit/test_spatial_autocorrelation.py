@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from neuroutils.spatial import moran_i_score, moranI_score
+from neuroutils.spatial import moran_i_score
 
 
 def test_moran_i_score_distance_and_knn() -> None:
@@ -21,5 +21,3 @@ def test_moran_i_score_distance_and_knn() -> None:
     assert isinstance(score_k, float)
     score_all = moran_i_score(coords, np.column_stack([feats, feats[::-1]]), reduce_type="all")
     assert isinstance(score_all, list) and len(score_all) == 2
-    score_alias = moranI_score(coords, feats, weight_type="knn", k=2)
-    assert isinstance(score_alias, float)

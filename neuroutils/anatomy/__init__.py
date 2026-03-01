@@ -2,7 +2,6 @@
 
 from neuroutils.anatomy.ccf import (
     ccf_to_stereotactic_mask_res25,
-    ccf2stereotactic_mask_res25,
     get_center,
     matrix_from_axis_angle,
     resample,
@@ -13,7 +12,6 @@ from neuroutils.anatomy.neighbors import (
     get_regional_neighbors,
     get_regional_neighbors_cuda,
     get_salient_regions_mask,
-    get_salient_regions_mask671,
 )
 from neuroutils.anatomy.region_size import compute_region_voxel_stats
 from neuroutils.anatomy.vis import (
@@ -27,7 +25,6 @@ from neuroutils.anatomy.vis import (
 
 __all__ = [
     "ccf_to_stereotactic_mask_res25",
-    "ccf2stereotactic_mask_res25",
     "get_center",
     "detect_edges2d",
     "detect_edges3d",
@@ -37,7 +34,6 @@ __all__ = [
     "get_regional_neighbors",
     "get_regional_neighbors_cuda",
     "get_salient_regions_mask",
-    "get_salient_regions_mask671",
     "get_section_boundary",
     "get_section_boundary_with_outline",
     "get_struct_from_id_path",

@@ -1,7 +1,6 @@
 """SWC sorting exports."""
 
 from neuroutils.swc.sorting.external import (
-    resample_sort_swc,
     resample_sort_swc_external,
     resample_swc_external,
     sort_swc_external,
@@ -13,5 +12,4 @@ __all__ = [
     "resample_swc_external",
     "sort_swc_external",
     "resample_sort_swc_external",
-    "resample_sort_swc",
 ]

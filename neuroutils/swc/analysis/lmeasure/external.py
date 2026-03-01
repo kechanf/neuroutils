@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import csv
-import os
-import shutil
+import sys
 import subprocess
-import tempfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+from neuroutils.config import get_vaa3d_path
 
 FEAT_NAMES22 = [
     "Nodes",
@@ -89,61 +89,25 @@ def parse_vaa3d_global_feature_output(text: str) -> dict[str, float]:
 def calc_global_features_external(
     swc_file: str | Path,
     *,
-    vaa3d_bin: str = "vaa3d",
+    vaa3d_bin: str | None = None,
+    vaa3d_version: str | None = None,
     timeout: int = 60,
     use_xvfb: bool = False,
 ) -> dict[str, float]:
     """Run Vaa3D `global_neuron_feature` and parse 22 canonical features."""
     swc = str(swc_file)
+    vb = vaa3d_bin or get_vaa3d_path("features", version=vaa3d_version)
+    cmd = [vb, "-x", "global_neuron_feature", "-f", "compute_feature", "-i", swc]
     if use_xvfb:
-        cmd = (
-            f'xvfb-run -a -s "-screen 0 640x480x16" {vaa3d_bin} '
-            f'-x global_neuron_feature -f compute_feature -i "{swc}"'
-        )
-    else:
-        cmd = f'{vaa3d_bin} -x global_neuron_feature -f compute_feature -i "{swc}"'
-    p = subprocess.run(cmd, shell=True, text=True, capture_output=True, timeout=timeout)
+        if sys.platform.startswith("win"):
+            raise ValueError("xvfb is not supported on Windows")
+        cmd = ["xvfb-run", "-a", "-s", "-screen 0 640x480x16", *cmd]
+    p = subprocess.run(cmd, shell=False, text=True, capture_output=True, timeout=timeout)
     if p.returncode != 0:
         raise RuntimeError(f"Vaa3D failed for {swc}: {p.stderr.strip()}")
     return parse_vaa3d_global_feature_output(p.stdout)
 
 
-def calc_global_features(
-    swc_file: str | Path,
-    *,
-    vaa3d: str = "vaa3d",
-    timeout: int = 60,
-) -> dict[str, float]:
-    """Compatibility alias for per-file global features."""
-    return calc_global_features_external(swc_file, vaa3d_bin=vaa3d, timeout=timeout)
-
-
-def _create_temp_copy(src_swc: str | Path) -> Path:
-    """Create temporary SWC copy and return new path."""
-    src = Path(src_swc)
-    fd, tmp = tempfile.mkstemp(suffix=".swc", prefix=f"{src.stem}_", text=True)
-    os.close(fd)
-    Path(tmp).unlink(missing_ok=True)
-    dst = Path(tmp)
-    shutil.copyfile(src, dst)
-    return dst
-
-
-def _wrapper(
-    swcfile: str | Path,
-    prefix: str,
-    out_dict: dict[str, dict[str, float]],
-    *,
-    robust: bool = True,
-    timeout: int = 60,
-    vaa3d: str = "vaa3d",
-) -> None:
-    """Legacy worker wrapper for batch feature extraction."""
-    try:
-        out_dict[prefix] = calc_global_features(swcfile, vaa3d=vaa3d, timeout=timeout)
-    except Exception:
-        if not robust:
-            raise
 
 
 def calc_global_features_from_folder(
@@ -153,7 +117,8 @@ def calc_global_features_from_folder(
     robust: bool = True,
     nworkers: int = 4,
     timeout: int = 60,
-    vaa3d_bin: str = "vaa3d",
+    vaa3d_bin: str | None = None,
+    vaa3d_version: str | None = None,
     use_xvfb: bool = False,
 ) -> list[dict[str, float | str]]:
     """Batch-run global features for all `.swc` in folder."""
@@ -164,6 +129,7 @@ def calc_global_features_from_folder(
         feat = calc_global_features_external(
             p,
             vaa3d_bin=vaa3d_bin,
+            vaa3d_version=vaa3d_version,
             timeout=timeout,
             use_xvfb=use_xvfb,
         )

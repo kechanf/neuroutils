@@ -36,12 +36,3 @@ def get_tera_res_paths(
         return _fmt(ordered[res_ids])
     return [_fmt(ordered[i]) for i in res_ids]
 
-
-def get_tera_res_path(
-    tera_dir: str | Path,
-    *,
-    res_ids: int | tuple[int, ...] | None = None,
-    bracket_escape: bool = True,
-) -> str | list[str]:
-    """Compatibility alias for TeraFly resolution path lookup."""
-    return get_tera_res_paths(tera_dir, res_ids=res_ids, bracket_escape=bracket_escape)

@@ -83,24 +83,3 @@ def moran_i_score(
         return float(np.mean(scores)) if scores else 0.0
     raise ValueError("reduce_type must be one of: average, max, all")
 
-
-def moranI_score(
-    coords: np.ndarray,
-    feats: np.ndarray,
-    *,
-    eval_ids: list[int] | None = None,
-    reduce_type: str = "average",
-    weight_type: str = "distance",
-    threshold: float = 0.5,
-    k: int = 5,
-) -> float | list[float]:
-    """Compatibility alias for Moran's I."""
-    return moran_i_score(
-        coords,
-        feats,
-        eval_ids=eval_ids,
-        reduce_type=reduce_type,
-        weight_type=weight_type,
-        threshold=threshold,
-        k=k,
-    )

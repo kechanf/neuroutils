@@ -11,10 +11,8 @@ from neuroutils.io.images import (
     save_v3draw,
 )
 from neuroutils.io.markers import (
-    generate_ano_file,
     generate_ano_for_swc,
     read_markers,
-    save_markers,
     write_markers,
     write_vaa3d_markers,
 )
@@ -23,7 +21,6 @@ from neuroutils.io.swc import read_swc, write_swc
 __all__ = [
     "convert_eswc_to_swc",
     "eswc_to_swc_lines",
-    "generate_ano_file",
     "generate_ano_for_swc",
     "load_image",
     "load_npy_image",
@@ -32,7 +29,6 @@ __all__ = [
     "read_markers",
     "read_swc",
     "save_image",
-    "save_markers",
     "save_npy_image",
     "save_v3draw",
     "write_vaa3d_markers",

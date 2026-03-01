@@ -91,24 +91,3 @@ def memory_safe_min_distances(
         chunk_size=chunk_size,
         return_indices=return_indices,
     )
-
-
-def min_distances_between_two_sets(
-    voxels1: np.ndarray,
-    voxels2: np.ndarray,
-    *,
-    topk: int = 1,
-    reciprocal: bool = True,
-    return_index: bool = False,
-    chunk_size: int = 4096,
-) -> tuple[np.ndarray, ...]:
-    """Compatibility alias with legacy signature."""
-    if topk != 1:
-        raise ValueError("Only topk=1 is supported")
-    return min_distances_between_sets(
-        voxels1,
-        voxels2,
-        reciprocal=reciprocal,
-        chunk_size=chunk_size,
-        return_indices=return_index,
-    )

@@ -5,7 +5,6 @@ import pytest
 
 from neuroutils.anatomy import (
     ccf_to_stereotactic_mask_res25,
-    ccf2stereotactic_mask_res25,
     get_center,
     matrix_from_axis_angle,
     resample,
@@ -26,8 +25,6 @@ def test_ccf_to_stereotactic_mask_res25() -> None:
     out = ccf_to_stereotactic_mask_res25(mask, rotate_z_deg=0.0, scale_y=0.5)
     assert out.ndim == 3
     assert out.shape[1] <= mask.shape[1]
-    out2 = ccf2stereotactic_mask_res25(mask)
-    assert out2.ndim == 3
 
 
 def test_resample_and_center() -> None:

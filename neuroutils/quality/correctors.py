@@ -53,15 +53,3 @@ def remove_duplicate_nodes_file(swc_in: str | Path, swc_out: str | Path | None =
     out = remove_duplicate_parent_coordinate_nodes(nodes)
     write_swc(dst, out)
     return dst
-
-
-def remove_duplicate_nodes(swcfile: str | Path, out_dir: str | Path | None = None) -> Path:
-    """Compatibility wrapper for duplicate-node correction on file."""
-    src = Path(swcfile)
-    if out_dir is None:
-        dst = src
-    else:
-        out_path = Path(out_dir)
-        out_path.mkdir(parents=True, exist_ok=True)
-        dst = out_path / src.name
-    return remove_duplicate_nodes_file(src, dst)

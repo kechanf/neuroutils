@@ -6,7 +6,6 @@ import pytest
 from neuroutils.utils.math import (
     memory_safe_min_distances,
     min_distances_between_sets,
-    min_distances_between_two_sets,
 )
 
 
@@ -38,13 +37,5 @@ def test_memory_safe_min_distances_alias() -> None:
     p1 = np.array([[0.0, 0.0], [1.0, 0.0]])
     p2 = np.array([[0.0, 1.0], [2.0, 0.0]])
     d1, d2 = memory_safe_min_distances(p1, p2, chunk_size=1)
-    assert d1.shape == (2,)
-    assert d2.shape == (2,)
-
-
-def test_min_distances_between_two_sets_alias() -> None:
-    p1 = np.array([[0.0, 0.0], [1.0, 0.0]])
-    p2 = np.array([[0.0, 1.0], [2.0, 0.0]])
-    d1, d2 = min_distances_between_two_sets(p1, p2)
     assert d1.shape == (2,)
     assert d2.shape == (2,)

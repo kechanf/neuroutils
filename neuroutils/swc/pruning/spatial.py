@@ -146,11 +146,6 @@ def crop_sphere_from_soma(nodes: list[SWCNode], radius: float) -> list[SWCNode]:
     return remove_disconnected(filtered, anchor_id=soma.node_id)
 
 
-def crop_spheric_from_soma(nodes: list[SWCNode], radius: float) -> list[SWCNode]:
-    """Compatibility alias for spherical crop around soma."""
-    return crop_sphere_from_soma(nodes, radius)
-
-
 def remove_disconnected(nodes: list[SWCNode], anchor_id: int) -> list[SWCNode]:
     """Keep only the connected component containing anchor in undirected SWC graph."""
     nmap = {n.node_id: n for n in nodes}

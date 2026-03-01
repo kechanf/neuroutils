@@ -124,18 +124,3 @@ def get_salient_regions_mask(
     out = np.isin(arr, list(allowed)).astype(np.uint8)
     return out
 
-
-def get_salient_regions_mask671(
-    mask: np.ndarray,
-    *,
-    all_regions: set[int],
-    ventricles: set[int],
-    fiber_tracts: set[int],
-) -> np.ndarray:
-    """Compatibility alias for salient-region masking."""
-    return get_salient_regions_mask(
-        mask,
-        all_regions=all_regions,
-        ventricles=ventricles,
-        fiber_tracts=fiber_tracts,
-    )

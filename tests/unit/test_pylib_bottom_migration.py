@@ -4,26 +4,13 @@ import numpy as np
 
 from neuroutils.core.types import SWCNode
 from neuroutils.swc.pruning import is_in_bbox, is_in_box, remove_disconnected, trim_out_of_box
-from neuroutils.utils.filesystem import (
-    file_extension,
-    file_prefix,
-    get_file_extension,
-    get_file_prefix,
-    get_tera_res_path,
-    get_tera_res_paths,
-)
-from neuroutils.utils.math import (
-    calc_included_angles_from_vectors,
-    get_exponent_and_mantissa,
-    included_angles_from_vectors,
-)
+from neuroutils.utils.filesystem import file_extension, file_prefix, get_tera_res_paths
+from neuroutils.utils.math import get_exponent_and_mantissa, included_angles_from_vectors
 
 
 def test_path_helpers() -> None:
     assert file_prefix("a/b/c.swc") == "c"
     assert file_extension("a/b/c.swc") == ".swc"
-    assert get_file_prefix("a/b/c.swc") == "c"
-    assert get_file_extension("a/b/c.swc") == ".swc"
 
 
 def test_math_helpers() -> None:
@@ -32,8 +19,6 @@ def test_math_helpers() -> None:
     assert man == 1.2
     ang = included_angles_from_vectors(np.array([1, 0, 0]), np.array([0, 1, 0]))
     assert np.isclose(float(ang[0]), 90.0)
-    ang2 = calc_included_angles_from_vectors(np.array([1, 0, 0]), np.array([0, 1, 0]))
-    assert np.isclose(float(ang2[0]), 90.0)
 
 
 def test_spatial_helpers() -> None:
@@ -48,7 +33,7 @@ def test_terafly_path_aliases(tmp_path) -> None:
     (tmp_path / "RES(004x004x004)").mkdir()
     paths = get_tera_res_paths(tmp_path)
     assert len(paths) == 2
-    one = get_tera_res_path(tmp_path, res_ids=0)
+    one = get_tera_res_paths(tmp_path, res_ids=0)
     assert isinstance(one, str)
 
 

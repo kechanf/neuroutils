@@ -1,5 +1,5 @@
 """Spatial analysis exports."""
 
-from neuroutils.spatial.autocorrelation import moran_i_score, moranI_score
+from neuroutils.spatial.autocorrelation import moran_i_score
 
-__all__ = ["moranI_score", "moran_i_score"]
+__all__ = ["moran_i_score"]

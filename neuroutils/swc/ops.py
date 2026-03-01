@@ -8,8 +8,7 @@ from pathlib import Path
 import numpy as np
 
 from neuroutils.core.types import SWCNode
-from neuroutils.io.swc import read_swc
-from neuroutils.swc.base import children_map, index_map, node_map
+from neuroutils.swc.base import node_map
 from neuroutils.swc.pruning import remove_disconnected
 from neuroutils.transforms import scale_nodes, shift_nodes
 
@@ -39,26 +38,6 @@ def load_spacings_csv(path: str | Path, *, zxy_order: bool = False) -> dict[int,
         else:
             spacing[brain_id] = xyz
     return spacing
-
-
-def load_spacings(path: str | Path, *, zxy_order: bool = False) -> dict[int, tuple[float, float, float]]:
-    """Compatibility alias for spacing CSV loader."""
-    return load_spacings_csv(path, zxy_order=zxy_order)
-
-
-def parse_swc(swc_file: str | Path) -> list[SWCNode]:
-    """Compatibility alias for SWC reader."""
-    return read_swc(swc_file)
-
-
-def get_child_dict(nodes: list[SWCNode]) -> dict[int, list[int]]:
-    """Compatibility alias for parent->children map."""
-    return children_map(nodes)
-
-
-def get_index_dict(nodes: list[SWCNode]) -> dict[int, int]:
-    """Compatibility alias for node-id->row-index map."""
-    return index_map(nodes)
 
 
 def prune(nodes: list[SWCNode], keep_node_ids: set[int]) -> list[SWCNode]:
@@ -132,32 +111,11 @@ def flip_nodes_axis(nodes: list[SWCNode], *, axis: str, dim: float) -> list[SWCN
     return out
 
 
-def flip_swc(nodes: list[SWCNode], axis: str = "y", dim: float | None = None) -> list[SWCNode]:
-    """Compatibility alias for axis flip; infer dim from node max if absent."""
-    if dim is None:
-        if not nodes:
-            return []
-        if axis == "x":
-            dim = max(n.x for n in nodes)
-        elif axis == "y":
-            dim = max(n.y for n in nodes)
-        elif axis == "z":
-            dim = max(n.z for n in nodes)
-        else:
-            raise ValueError("axis must be one of: x,y,z")
-    return flip_nodes_axis(nodes, axis=axis, dim=float(dim))
-
-
 def get_soma_line_fast(path: str | Path, *, pattern: str = r".* -1\s*$") -> str | None:
     """Return first matched soma line from SWC file, else None."""
     text = Path(path).read_text(encoding="utf-8")
     m = re.search(pattern, text, flags=re.MULTILINE)
     return m.group(0) if m is not None else None
-
-
-def get_soma_from_swc(path: str | Path, *, pattern: str = r".* -1\s*$") -> str | None:
-    """Compatibility alias for extracting soma/root line text."""
-    return get_soma_line_fast(path, pattern=pattern)
 
 
 def tree_to_voxels(nodes: list[SWCNode], shape_zyx: tuple[int, int, int]) -> np.ndarray:

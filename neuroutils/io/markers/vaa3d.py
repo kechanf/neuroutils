@@ -47,30 +47,3 @@ def generate_ano_for_swc(swc_path: str | Path, *, outdir: str | Path | None = No
     apo.write_text("\n".join(lines) + "\n", encoding="utf-8")
     ano.write_text(f"APOFILE={apo.name}\nSWCFILE={swc.name}\n", encoding="utf-8")
     return apo, ano
-
-
-def save_markers(
-    outfile: str | Path,
-    markers: list[tuple[float, float, float]],
-    *,
-    radius: float = 0.0,
-    shape: int = 0,
-    name: str = "",
-    comment: str = "",
-    c: tuple[int, int, int] = (0, 0, 255),
-) -> None:
-    """Compatibility alias for writing Vaa3D marker CSV."""
-    write_vaa3d_markers(
-        outfile,
-        markers,
-        radius=radius,
-        shape=shape,
-        name=name,
-        comment=comment,
-        color_rgb=c,
-    )
-
-
-def generate_ano_file(swcfile: str | Path, outdir: str | Path | None = None) -> tuple[Path, Path]:
-    """Compatibility alias for generating APO/ANO pair."""
-    return generate_ano_for_swc(swcfile, outdir=outdir)
