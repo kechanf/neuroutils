@@ -1,59 +1,56 @@
 # neuroutils
 
-Toolkit scaffold for neuron morphology processing, validation, analysis, and visualization.
+Neuron morphology toolkit covering IO, validation, transforms, morphometrics, topology scoring, workflows, and visualization.
 
-The repository is now prepared for real feature implementation with packaging, CI, release automation, quality gates, and collaboration templates.
-
-## Project status
-
-- Functional algorithms: not implemented yet.
-- Engineering foundation: ready.
-
-## Quick start
+## Installation
 
 ```bash
 python -m pip install -e .[dev]
-pre-commit install
-pytest
 ```
 
-Or on PowerShell:
+## Main capabilities
 
-```powershell
-./scripts/bootstrap.ps1
-./scripts/check.ps1
+- SWC/ESWC/marker/image IO
+- SWC validation, reindexing, pruning, standardization
+- Morphometric features and topology scoring
+- Segmentation utilities (soma centroid/bbox, thresholding)
+- Visualization (MIP projection, mask overlay, SWC/marker rendering, QC strip, canvas grid)
+- Pipeline and evaluation workflows
+- CLI: `neuroutils process|features|compare`
+
+## Quick usage
+
+```python
+from neuroutils.io import read_swc
+from neuroutils.swc import assert_valid_swc
+from neuroutils.morphometrics import global_feature_dict
+from neuroutils.topology import composite_topology_score
+
+nodes = read_swc("example.swc")
+assert_valid_swc(nodes)
+features = global_feature_dict(nodes)
+print(features)
 ```
 
-## Repository structure
+```python
+from neuroutils.visualization import Panel, render_grid
 
-- `neuroutils/`: package source
-- `tests/`: unit and smoke tests
-- `docs/`: architecture and roadmap notes
-- `scripts/`: local developer helper scripts
-- `.github/workflows/`: CI and release automation
+panel = Panel(image=volume_3d, projection="xy", swc_nodes=nodes, mask=seg_mask, title="XY View")
+render_grid([panel], ncols=1, output_path="viz.png")
+```
 
-## Tooling
+## CLI
 
-- Packaging: `setuptools` via `pyproject.toml`
-- Lint: `ruff`
-- Type checking: `mypy`
-- Testing: `pytest`
-- Hooks: `pre-commit`
-- CI: GitHub Actions matrix (`3.10/3.11/3.12`)
-- Publish: GitHub tag-based PyPI trusted publishing (`v*` tags)
+```bash
+neuroutils process in.swc out.swc
+neuroutils features in.swc
+neuroutils compare gt.swc pred.swc
+```
 
-## Release flow
+## Visualization guide
 
-1. Update version in `pyproject.toml` and `CHANGELOG.md`.
-2. Commit and tag: `git tag vX.Y.Z`.
-3. Push commits and tag.
-4. GitHub Action publishes to PyPI (after PyPI trusted publisher is configured).
+See [docs/VISUALIZATION_README.md](docs/VISUALIZATION_README.md).
 
-## Notes
+## Full API reference
 
-- Replace placeholder repository URLs in `pyproject.toml` with your actual GitHub namespace.
-- Ensure repository ownership is correct to avoid Git safe-directory warnings.
-
-## License
-
-MIT License. See `LICENSE`.
+See [docs/API_REFERENCE.md](docs/API_REFERENCE.md) for full function/module documentation text.
