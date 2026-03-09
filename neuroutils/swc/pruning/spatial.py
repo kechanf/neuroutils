@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from collections import deque
-
 import math
+from collections import deque
 
 from neuroutils.core.types import SWCNode
 from neuroutils.swc.base import children_map, find_soma_index, index_map

@@ -9,7 +9,10 @@ import numpy as np
 
 from neuroutils.config import get_vaa3d_path
 from neuroutils.io.images import load_image, save_image
-from neuroutils.segmentation.soma.workflows import SomaDetectionResult, detect_soma_region_from_segmentation
+from neuroutils.segmentation.soma.workflows import (
+    SomaDetectionResult,
+    detect_soma_region_from_segmentation,
+)
 from neuroutils.tracing.vaa3d.tracers import resolve_tracer_plugin_arg
 from neuroutils.utils.subprocess import run_checked
 

@@ -1,8 +1,8 @@
 """ML utility exports."""
 
 from neuroutils.ml.feature_processing import (
-    clip_outliners,
     clip_outliers,
+    clip_outliners,
     normalize_features_by_sum,
     normalize_features_minmax,
     standardize_features,

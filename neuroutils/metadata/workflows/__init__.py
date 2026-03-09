@@ -1,9 +1,5 @@
 """Metadata workflow exports."""
 
-from neuroutils.metadata.workflows.consistency import (
-    build_metadata_consistency_report,
-    validate_metadata_table_consistency,
-)
 from neuroutils.metadata.workflows.catalog import (
     extract_neuron_id_from_filename,
     load_metadata_table_records,
@@ -14,6 +10,10 @@ from neuroutils.metadata.workflows.catalog import (
     tile_id_from_record,
     v3dpbd_relative_path_from_cell_id,
     xy_z_resolution_from_record,
+)
+from neuroutils.metadata.workflows.consistency import (
+    build_metadata_consistency_report,
+    validate_metadata_table_consistency,
 )
 
 __all__ = [

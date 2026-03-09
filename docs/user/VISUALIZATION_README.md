@@ -9,6 +9,25 @@
 - `canvas`: multi-panel rendering
 - `gallery`: layout composition
 - `qc`: QC strip generation
+- `quick`: one-call plotting entry for image + mask + swc + markers
+
+## 0. One-call quick plotting (recommended)
+
+```python
+from neuroutils.visualization import quick_plot
+
+vis = quick_plot(
+    "examples/image_40009_0000.tif",
+    mask="examples/image_40009_seg.tif",
+    swc="examples/image_40009.swc",
+    markers="examples/markers.csv",
+    projection="xy",
+    save_path="examples/image_40009_vis.npy",
+)
+```
+
+- Path input and object input are both supported.
+- `save_path` uses `neuroutils.io.images.save_image` (e.g. `.npy`, `.tif`, `.v3draw`).
 
 ## 1. Project volume
 

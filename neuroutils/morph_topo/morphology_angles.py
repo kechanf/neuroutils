@@ -55,7 +55,7 @@ class MorphCurvature:
         npt = 4
         out: dict[int, float] = {}
         mf = self.morph.multifurcation | self.morph.bifurcation
-        for tip, path in self.paths.items():
+        for _tip, path in self.paths.items():
             coords = np.array([self.morph.pos_dict[idx][2:5] for idx in path], dtype=np.float64)
             mflags = [idx in mf for idx in path]
             if self.neurite_type != "all":
@@ -88,7 +88,7 @@ class MorphCurvature:
         npt = 4
         out: dict[int, tuple[float, float]] = {}
         mf = self.morph.multifurcation | self.morph.bifurcation
-        for tip, path in self.paths.items():
+        for _tip, path in self.paths.items():
             coords = np.array([self.morph.pos_dict[idx][2:5] for idx in path], dtype=np.float64)
             mflags = [idx in mf for idx in path] if discard_multifurcate else [False] * len(path)
             if self.neurite_type != "all":

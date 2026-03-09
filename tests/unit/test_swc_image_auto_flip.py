@@ -3,7 +3,11 @@ from __future__ import annotations
 import numpy as np
 
 from neuroutils.core.types import SWCNode
-from neuroutils.transforms.coordinates import auto_flip_nodes_y_by_intensity, flip_nodes_y, mean_intensity_at_nodes
+from neuroutils.transforms.coordinates import (
+    auto_flip_nodes_y_by_intensity,
+    flip_nodes_y,
+    mean_intensity_at_nodes,
+)
 
 
 def test_flip_nodes_y_formula() -> None:

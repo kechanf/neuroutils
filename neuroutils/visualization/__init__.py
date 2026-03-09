@@ -5,6 +5,7 @@ from neuroutils.visualization.canvas import Panel, render_grid
 from neuroutils.visualization.gallery import side_by_side
 from neuroutils.visualization.plotting import plot_lines, project_volume, sns_jointplot
 from neuroutils.visualization.qc import make_qc_strip
+from neuroutils.visualization.quick import quick_plot
 from neuroutils.visualization.segmentation import overlay_mask
 from neuroutils.visualization.swc import draw_markers, draw_swc
 
@@ -17,6 +18,7 @@ __all__ = [
     "overlay_mask",
     "plot_lines",
     "project_volume",
+    "quick_plot",
     "render_grid",
     "side_by_side",
     "sns_jointplot",

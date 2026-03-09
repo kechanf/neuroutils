@@ -1,16 +1,27 @@
 """Image preprocess exports."""
 
-from neuroutils.imaging.preprocess.basic import flip_y_axis, min_max_normalize, pad_to_shape, to_uint8
-from neuroutils.imaging.preprocess.enhance import clahe_enhance, do_CLAHE, do_gamma, gamma_correction
+from neuroutils.imaging.preprocess.basic import (
+    flip_y_axis,
+    min_max_normalize,
+    normalize_tiff_to_uint8_uncompressed,
+    pad_to_shape,
+    to_uint8,
+)
+from neuroutils.imaging.preprocess.enhance import (
+    clahe_enhance,
+    do_CLAHE,
+    do_gamma,
+    gamma_correction,
+)
 from neuroutils.imaging.preprocess.statistics import (
     crop_nonzero_mask,
     extend_skel_to_boundary,
-    get_mip_image,
     get_longest_skeleton,
+    get_mip_image,
     histogram_equalize,
     image_histeq,
-    montage_images_for_folder,
     mip,
+    montage_images_for_folder,
 )
 
 __all__ = [
@@ -26,6 +37,7 @@ __all__ = [
     "histogram_equalize",
     "image_histeq",
     "min_max_normalize",
+    "normalize_tiff_to_uint8_uncompressed",
     "montage_images_for_folder",
     "mip",
     "pad_to_shape",

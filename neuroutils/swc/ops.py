@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections import deque
 from pathlib import Path
 
 import numpy as np
@@ -167,3 +168,103 @@ def scale_swc(nodes: list[SWCNode], scale: float | tuple[float, float, float]) -
 def rm_disconnected(nodes: list[SWCNode], anchor: int) -> list[SWCNode]:
     """Compatibility wrapper for disconnected-component removal."""
     return remove_disconnected(nodes, anchor_id=anchor)
+
+
+def _undirected_adjacency(nodes: list[SWCNode]) -> dict[int, set[int]]:
+    adj: dict[int, set[int]] = {n.node_id: set() for n in nodes}
+    ids = set(adj)
+    for n in nodes:
+        pid = n.parent_id
+        if pid == -1 or pid not in ids:
+            continue
+        adj[n.node_id].add(pid)
+        adj[pid].add(n.node_id)
+    return adj
+
+
+def _connected_components(adj: dict[int, set[int]]) -> list[set[int]]:
+    comps: list[set[int]] = []
+    seen: set[int] = set()
+    for nid in sorted(adj):
+        if nid in seen:
+            continue
+        stack = [nid]
+        comp: set[int] = set()
+        seen.add(nid)
+        while stack:
+            cur = stack.pop()
+            comp.add(cur)
+            for nb in adj[cur]:
+                if nb in seen:
+                    continue
+                seen.add(nb)
+                stack.append(nb)
+        comps.append(comp)
+    return comps
+
+
+def reroot_forest_by_soma_ids(
+    nodes: list[SWCNode],
+    soma_node_ids: list[int] | tuple[int, ...] | set[int],
+    *,
+    set_soma_type: bool = True,
+) -> tuple[list[SWCNode], list[int]]:
+    """Reroot each connected component using manual/auto soma selection.
+
+    Selection rule:
+    - If a component contains any `soma_node_ids`, pick one of them (smallest id).
+    - Otherwise choose the highest-degree node in that component; tie -> smallest id.
+
+    Returns:
+    - rerooted nodes (same node ids, updated parent ids)
+    - resolved soma ids, one per connected component
+    """
+    if not nodes:
+        return [], []
+
+    nmap = node_map(nodes)
+    manual = set(int(x) for x in soma_node_ids)
+    missing = sorted(manual - set(nmap))
+    if missing:
+        raise ValueError(f"Manual soma node ids not found in SWC: {missing}")
+
+    adj = _undirected_adjacency(nodes)
+    comps = _connected_components(adj)
+    new_parent: dict[int, int] = {}
+    resolved_somas: list[int] = []
+
+    for comp in comps:
+        manual_here = sorted(nid for nid in comp if nid in manual)
+        if manual_here:
+            soma = manual_here[0]
+        else:
+            soma = min(comp, key=lambda nid: (-len(adj[nid]), nid))
+        resolved_somas.append(soma)
+
+        q: deque[int] = deque([soma])
+        visited = {soma}
+        new_parent[soma] = -1
+        while q:
+            cur = q.popleft()
+            for nb in sorted(adj[cur]):
+                if nb in visited:
+                    continue
+                visited.add(nb)
+                new_parent[nb] = cur
+                q.append(nb)
+
+    out: list[SWCNode] = []
+    soma_set = set(resolved_somas)
+    for n in nodes:
+        out.append(
+            SWCNode(
+                node_id=n.node_id,
+                node_type=1 if (set_soma_type and n.node_id in soma_set) else n.node_type,
+                x=n.x,
+                y=n.y,
+                z=n.z,
+                radius=n.radius,
+                parent_id=new_parent.get(n.node_id, -1),
+            )
+        )
+    return out, resolved_somas

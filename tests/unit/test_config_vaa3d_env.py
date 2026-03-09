@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from neuroutils.config import get_vaa3d_path, get_vaa3d_paths, resolve_vaa3d_executable
 import neuroutils.config.settings as settings
+from neuroutils.config import get_vaa3d_path, get_vaa3d_paths, resolve_vaa3d_executable
 
 
 def test_get_vaa3d_paths_x_and_3(monkeypatch) -> None:  # type: ignore[no-untyped-def]

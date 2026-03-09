@@ -3,7 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 
 from neuroutils.core.types import SWCNode
-from neuroutils.quality import DistanceEvaluation, remove_duplicate_nodes_file, remove_duplicate_parent_coordinate_nodes
+from neuroutils.quality import (
+    DistanceEvaluation,
+    remove_duplicate_nodes_file,
+    remove_duplicate_parent_coordinate_nodes,
+)
 
 
 def test_remove_duplicate_parent_coordinate_nodes() -> None:

@@ -9,10 +9,11 @@ from neuroutils.swc.base import find_soma_index, find_soma_node_id, index_map
 from neuroutils.swc.ops import (
     filter_neurite_types,
     flip_nodes_axis,
-    get_specific_neurite,
     get_soma_line_fast,
+    get_specific_neurite,
     load_spacings_csv,
     prune,
+    reroot_forest_by_soma_ids,
     rm_disconnected,
     scale_swc,
     shift_swc,
@@ -93,3 +94,24 @@ def test_crop_tree_by_bbox_and_sphere() -> None:
 
     sphere = crop_sphere_from_soma(nodes, radius=2.1)
     assert [n.node_id for n in sphere] == [1, 2]
+
+
+def test_reroot_forest_by_soma_ids_manual_and_auto() -> None:
+    nodes = [
+        SWCNode(1, 3, 0, 0, 0, 1, -1),
+        SWCNode(2, 3, 1, 0, 0, 1, 1),
+        SWCNode(3, 3, 2, 0, 0, 1, 2),
+        SWCNode(4, 3, 10, 0, 0, 1, -1),
+        SWCNode(5, 3, 11, 0, 0, 1, 4),
+        SWCNode(6, 3, 10, 1, 0, 1, 4),
+        SWCNode(7, 3, 10, -1, 0, 1, 4),
+    ]
+    out, somas = reroot_forest_by_soma_ids(nodes, soma_node_ids={3})
+    by_id = {n.node_id: n for n in out}
+    assert sorted(somas) == [3, 4]
+    assert by_id[3].parent_id == -1
+    assert by_id[2].parent_id == 3
+    assert by_id[1].parent_id == 2
+    assert by_id[4].parent_id == -1
+    assert by_id[3].node_type == 1
+    assert by_id[4].node_type == 1

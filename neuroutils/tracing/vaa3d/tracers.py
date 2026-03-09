@@ -10,11 +10,12 @@ Legacy names are kept as thin aliases.
 from __future__ import annotations
 
 import sys
+from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from dataclasses import dataclass
 
 from neuroutils.config import get_vaa3d_path, get_vaa3d_paths
+
 
 @dataclass(frozen=True, slots=True)
 class TracerSpec:

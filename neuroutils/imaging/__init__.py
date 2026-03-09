@@ -10,8 +10,9 @@ from neuroutils.imaging.preprocess import (
     get_longest_skeleton,
     histogram_equalize,
     min_max_normalize,
-    montage_images_for_folder,
     mip,
+    montage_images_for_folder,
+    normalize_tiff_to_uint8_uncompressed,
     pad_to_shape,
     to_uint8,
 )
@@ -25,6 +26,7 @@ __all__ = [
     "get_longest_skeleton",
     "histogram_equalize",
     "min_max_normalize",
+    "normalize_tiff_to_uint8_uncompressed",
     "montage_images_for_folder",
     "mip",
     "pad_to_shape",

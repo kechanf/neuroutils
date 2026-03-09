@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 
@@ -43,3 +45,25 @@ def pad_to_shape(image: np.ndarray, target_shape: tuple[int, int, int]) -> np.nd
     out = np.zeros(target_shape, dtype=image.dtype)
     out[: min(z, tz), : min(y, ty), : min(x, tx)] = image[: min(z, tz), : min(y, ty), : min(x, tx)]
     return out
+
+
+def normalize_tiff_to_uint8_uncompressed(
+    input_path: str | Path,
+    output_path: str | Path,
+) -> Path:
+    """Normalize TIFF to [0,255] uint8 and save as uncompressed TIFF."""
+    try:
+        import tifffile as tiff
+    except ImportError as exc:
+        raise RuntimeError("normalize_tiff_to_uint8_uncompressed requires tifffile") from exc
+
+    in_path = Path(input_path)
+    out_path = Path(output_path)
+
+    with tiff.TiffFile(in_path) as tf:
+        image = tf.asarray(maxworkers=1)
+
+    image_u8 = to_uint8(np.asarray(image))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    tiff.imwrite(out_path, image_u8, compression=None)
+    return out_path

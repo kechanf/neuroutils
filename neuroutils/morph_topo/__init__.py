@@ -4,8 +4,8 @@ from neuroutils.morph_topo.morphology import Morphology, Topology, TreeInitializ
 from neuroutils.morph_topo.morphology_angles import MorphAngles, MorphCurvature
 from neuroutils.morph_topo.morphology_features import TopoFeatures, TopoImFeatures
 from neuroutils.morph_topo.morphology_pdist import PDist
-from neuroutils.morph_topo.neurite_shape import AbstractNeuriteShape, NeuriteShapeSingle
 from neuroutils.morph_topo.morphology_utils import get_outside_soma_mask
+from neuroutils.morph_topo.neurite_shape import AbstractNeuriteShape, NeuriteShapeSingle
 
 __all__ = [
     "AbstractNeuriteShape",

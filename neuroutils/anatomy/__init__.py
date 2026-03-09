@@ -6,7 +6,12 @@ from neuroutils.anatomy.ccf import (
     matrix_from_axis_angle,
     resample,
 )
-from neuroutils.anatomy.core import get_struct_from_id_path, parse_ana_tree, parse_id_map, parse_regions316
+from neuroutils.anatomy.core import (
+    get_struct_from_id_path,
+    parse_ana_tree,
+    parse_id_map,
+    parse_regions316,
+)
 from neuroutils.anatomy.neighbors import (
     generate_mask314,
     get_regional_neighbors,

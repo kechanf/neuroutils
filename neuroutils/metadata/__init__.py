@@ -13,8 +13,8 @@ from neuroutils.metadata.workflows import (
     rebuild_metadata_cache,
     split_metadata_table_by_neuron_id,
     tile_id_from_record,
-    validate_metadata_table_consistency,
     v3dpbd_relative_path_from_cell_id,
+    validate_metadata_table_consistency,
     xy_z_resolution_from_record,
 )
 

@@ -64,6 +64,15 @@ This document summarizes the current public capabilities of `neuroutils` and is 
   - Existing parent references
   - Non-negative radii
 
+### `neuroutils.validation.swc.checkers`
+
+- `check_single_tree(nodes) -> bool`
+  - Returns whether nodes form one connected rooted tree.
+- `SWCChecker(error_types=...)`
+  - Configurable SWC quality checker set.
+- `SWCChecker.run(path_or_nodes) -> SWCCheckResult`
+  - Runs selected checks and returns boolean map.
+
 ### `neuroutils.validation.segmentation`
 
 - `validate_binary_mask(mask) -> None`
@@ -92,6 +101,12 @@ This document summarizes the current public capabilities of `neuroutils` and is 
 
 - `reindex_swc(nodes) -> list[SWCNode]`
   - Reindex nodes to contiguous IDs using BFS from root.
+- `resample_swc_external(swc_in, swc_out, step=2.0, ...) -> None`
+  - Vaa3D plugin wrapper for SWC edge resampling.
+- `sort_swc_external(swc_in, swc_out, ...) -> None`
+  - Vaa3D plugin wrapper for SWC sorting/re-root standardization.
+- `resample_sort_swc_external(swc_in, swc_out, step=2.0, ...) -> None`
+  - Combined external workflow; recommended after aggressive resample.
 
 ### `neuroutils.swc.pruning`
 
@@ -145,6 +160,24 @@ This document summarizes the current public capabilities of `neuroutils` and is 
 - `TopologySummary`
   - `roots, bifurcations, leaves, edge_count`
 - `summarize_topology(nodes) -> TopologySummary`
+- `node_count(nodes) -> int`
+- `bbox_xyz(nodes) -> BBoxXYZ`
+  - `xmin, xmax, ymin, ymax, zmin, zmax`
+- `extent_xyz(nodes) -> ExtentXYZ`
+  - `x, y, z` (width, height, depth)
+
+### `neuroutils.swc.synthesis`
+
+- Graft operators
+  - `graft_full_tree(target_nodes, donor_nodes, ...) -> GraftResult`
+  - `graft_branch_segment(target_nodes, donor_nodes, ...) -> GraftResult`
+- Noise/perturbation operators
+  - `local_spur(nodes, spur_count=5, spur_len_range=(1,3), ...) -> OperatorResult`
+  - `small_cluster_attach(nodes, cluster_size=8, cluster_radius=3.0, connect_mode="mixed", ...) -> OperatorResult`
+  - `break_fragment_attach(nodes, break_ratio=0.1, offset=(2.0,8.0), reconnect_prob=0.5, ...) -> OperatorResult`
+- Random tree generation
+  - `generate_random_tree_nodes(n_points, max_size_xyz=(100,100,100), point_distance_range=(1.0,10.0), min_node_distance=1.0, ...) -> list[SWCNode]`
+  - `generate_random_tree_swc(output_swc, n_points, ...) -> list[SWCNode]`
 
 ## 5. Transforms
 
@@ -155,6 +188,12 @@ This document summarizes the current public capabilities of `neuroutils` and is 
 ### `neuroutils.transforms.geometry`
 
 - `scale_nodes(nodes, sx=1.0, sy=1.0, sz=1.0) -> list[SWCNode]`
+- `random_rotation_matrix(rng=None) -> np.ndarray`
+- `unit_vector(v, eps=1e-12) -> np.ndarray | None`
+- `rotation_matrix_from_vectors(src, dst, eps=1e-12) -> np.ndarray | None`
+- `rotate_points(points, center, rotation_matrix) -> np.ndarray`
+- `sample_direction_in_cone(axis, max_deg, rng=None, eps=1e-12) -> np.ndarray`
+- `rotate_fragment_points_to_match_angle(points, base_point, fragment_root_point, reference_direction, max_deg, ...) -> np.ndarray`
 
 ### `neuroutils.transforms.normalization`
 
@@ -219,6 +258,17 @@ This document summarizes the current public capabilities of `neuroutils` and is 
 
 ### `neuroutils.visualization.base`
 
+## 10. Generic Workflow Utilities
+
+### `neuroutils.workflows.common`
+
+- `process_directory_files(input_dir, output_dir, processor, pattern='*', n_jobs=-1, backend='loky', show_progress=True, skip_existing=False) -> list[dict]`
+  - Generic parallel file-processing workflow.
+  - Calls `processor(input_path, output_path)` for each file and preserves relative layout.
+- `compute_directory_metrics(input_dir, metric_fn, output_csv, pattern='*', summary_csv=None, n_jobs=-1, backend='loky', show_progress=True) -> dict`
+  - Generic parallel metric workflow.
+  - Writes per-file detail CSV and aggregate summary CSV (`mean/std/min/max` for numeric columns).
+
 - `normalize_to_uint8(arr) -> np.ndarray`
 - `to_rgb(gray_or_rgb) -> np.ndarray`
 
@@ -243,6 +293,11 @@ This document summarizes the current public capabilities of `neuroutils` and is 
 
 - `make_qc_strip(raw_image, seg_overlay=None, swc_overlay=None) -> np.ndarray`
 
+### `neuroutils.visualization.quick`
+
+- `quick_plot(image, mask=None, swc=None, markers=None, projection="xy", ..., save_path=None) -> np.ndarray`
+  - One-call visualization entry for image + segmentation + swc + marker.
+
 ### `neuroutils.visualization.canvas`
 
 - `Panel(image, projection="xy", title=None, mask=None, swc_nodes=[], markers=[])`
@@ -255,6 +310,8 @@ This document summarizes the current public capabilities of `neuroutils` and is 
 
 - `process_swc_file(input_swc, output_swc) -> None`
   - Baseline flow: validate -> estimate radii -> reindex -> standardize -> save.
+- `synthesize_swc_with_strategies(input_swc, output_swc, strategies, donor_swc_paths=None, seed=None) -> list[SynthesisStepResult]`
+  - Serially applies specified synthesis strategies on one target SWC.
 
 ### `neuroutils.workflows.evaluation`
 

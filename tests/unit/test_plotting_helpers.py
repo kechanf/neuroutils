@@ -8,6 +8,7 @@ import pytest
 
 from neuroutils.visualization.plotting import plot_lines, sns_jointplot
 
+
 def _has_module(name: str) -> bool:
     return importlib.util.find_spec(name) is not None
 

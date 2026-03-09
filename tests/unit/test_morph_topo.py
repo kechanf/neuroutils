@@ -3,7 +3,13 @@ from __future__ import annotations
 import numpy as np
 
 from neuroutils.core.types import SWCNode
-from neuroutils.morph_topo import MorphAngles, MorphCurvature, Morphology, Topology, get_outside_soma_mask
+from neuroutils.morph_topo import (
+    MorphAngles,
+    MorphCurvature,
+    Morphology,
+    Topology,
+    get_outside_soma_mask,
+)
 
 
 def _toy_tree() -> list[SWCNode]:

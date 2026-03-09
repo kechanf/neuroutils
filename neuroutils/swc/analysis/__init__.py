@@ -12,10 +12,20 @@ from neuroutils.swc.analysis.lmeasure import (
     parse_vaa3d_global_feature_output,
 )
 from neuroutils.swc.analysis.sholl import ShollResult, sholl_intersections
-from neuroutils.swc.analysis.topology import TopologySummary, summarize_topology
+from neuroutils.swc.analysis.topology import (
+    BBoxXYZ,
+    ExtentXYZ,
+    TopologySummary,
+    bbox_xyz,
+    extent_xyz,
+    node_count,
+    summarize_topology,
+)
 
 __all__ = [
     "ConnectivityMetrics",
+    "BBoxXYZ",
+    "ExtentXYZ",
     "GeodesicMetrics",
     "KeypointMetrics",
     "LMeasureLike",
@@ -28,6 +38,9 @@ __all__ = [
     "compute_geodesic_metrics",
     "compute_keypoint_metrics",
     "compute_lmeasure_like",
+    "bbox_xyz",
+    "extent_xyz",
+    "node_count",
     "parse_vaa3d_global_feature_output",
     "sholl_intersections",
     "summarize_topology",

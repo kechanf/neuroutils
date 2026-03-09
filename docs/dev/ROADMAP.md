@@ -1,6 +1,6 @@
 # Roadmap
 
-Last updated: 2026-03-01
+Last updated: 2026-03-09
 
 ## Completed
 
@@ -19,6 +19,10 @@ Last updated: 2026-03-01
 - [x] Documentation split:
   - user docs: `docs/user/*`
   - dev docs: `docs/dev/*`
+- [x] Generic directory batch helpers:
+  - `process_directory_files`
+  - `compute_directory_metrics`
+- [x] Connectivity quality check pathway documented and validated (`SingleTree`)
 
 ## Current TODO (near-term)
 
@@ -29,6 +33,10 @@ Last updated: 2026-03-01
 - [ ] Add CLI subcommands for new workflow reports
 - [ ] Add end-to-end smoke tests on real `examples` data (without git tracking examples)
 - [ ] Remove or merge duplicate functionality branches, keep canonical implementation only
+- [ ] Add one canonical "batch cleanup" workflow:
+  - validate connectivity
+  - optional auto-delete invalid files
+  - produce deletion report CSV
 
 ## Stabilization TODO (pre-1.0)
 

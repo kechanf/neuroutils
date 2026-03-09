@@ -5,7 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from neuroutils.io.swc import read_swc, write_swc
-from neuroutils.swc import assert_valid_swc, estimate_missing_radii, reindex_swc
+from neuroutils.swc import (
+    assert_valid_swc,
+    estimate_missing_radii,
+    reindex_swc,
+    reroot_forest_by_soma_ids,
+)
 from neuroutils.transforms import standardize_swc
 
 
@@ -45,3 +50,26 @@ def process_swc_directory(
                 continue
             raise
     return outputs
+
+
+def reroot_swc_with_soma_ids(
+    input_swc: str | Path,
+    output_swc: str | Path,
+    *,
+    soma_node_ids: list[int] | tuple[int, ...] | set[int],
+    set_soma_type: bool = True,
+) -> list[int]:
+    """Reroot SWC/forest from specified or auto-selected soma nodes and save."""
+    nodes = read_swc(input_swc)
+    rerooted, resolved_somas = reroot_forest_by_soma_ids(
+        nodes,
+        soma_node_ids=soma_node_ids,
+        set_soma_type=set_soma_type,
+    )
+    header = [
+        "rerooted by neuroutils",
+        f"manual_soma_ids={sorted(int(x) for x in soma_node_ids)}",
+        f"resolved_component_somas={sorted(resolved_somas)}",
+    ]
+    write_swc(output_swc, rerooted, header=header)
+    return sorted(resolved_somas)

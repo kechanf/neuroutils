@@ -4,7 +4,12 @@ import json
 import pickle
 from pathlib import Path
 
-from neuroutils.anatomy import get_struct_from_id_path, parse_ana_tree, parse_id_map, parse_regions316
+from neuroutils.anatomy import (
+    get_struct_from_id_path,
+    parse_ana_tree,
+    parse_id_map,
+    parse_regions316,
+)
 
 
 def test_parse_anatomy_and_id_map(tmp_path: Path) -> None:

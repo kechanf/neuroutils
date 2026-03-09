@@ -17,8 +17,16 @@ def read_markers(path: str | Path) -> list[Marker]:
         parts = [x.strip() for x in line.split(",")]
         if len(parts) < 3:
             continue
-        radius = float(parts[3]) if len(parts) > 3 else 1.0
-        markers.append(Marker(x=float(parts[0]), y=float(parts[1]), z=float(parts[2]), radius=radius))
+        if parts[0].lower() in {"x", "coord_x"}:
+            continue
+        try:
+            radius = float(parts[3]) if len(parts) > 3 else 1.0
+            x = float(parts[0])
+            y = float(parts[1])
+            z = float(parts[2])
+        except ValueError:
+            continue
+        markers.append(Marker(x=x, y=y, z=z, radius=radius))
     return markers
 
 

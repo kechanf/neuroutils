@@ -10,12 +10,12 @@ from neuroutils.imaging.preprocess import (
     do_gamma,
     extend_skel_to_boundary,
     gamma_correction,
-    get_mip_image,
     get_longest_skeleton,
+    get_mip_image,
     histogram_equalize,
     image_histeq,
-    montage_images_for_folder,
     mip,
+    montage_images_for_folder,
 )
 from neuroutils.utils.filesystem import get_tera_res_paths
 
@@ -76,7 +76,7 @@ def test_montage_and_skeleton_helpers(tmp_path: Path) -> None:
     from PIL import Image
 
     for i in range(3):
-        img = Image.fromarray((np.ones((8, 8), dtype=np.uint8) * (i + 1) * 50))
+        img = Image.fromarray(np.ones((8, 8), dtype=np.uint8) * (i + 1) * 50)
         img.save(tmp_path / f"{i}.png")
     outs = montage_images_for_folder(tmp_path, sw=2, sh=2, prefix="t")
     assert len(outs) >= 1 and outs[0].exists()

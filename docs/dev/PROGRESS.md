@@ -1,5 +1,23 @@
 # Progress Log
 
+## 2026-03-09
+
+### Documentation + workflow updates
+
+- Updated user-facing docs (`README.md`, `docs/user/API_REFERENCE.md`) to match current implementation.
+- Added explicit usage documentation for:
+  - generic directory file processing (`process_directory_files`)
+  - generic directory metric aggregation with CSV outputs (`compute_directory_metrics`)
+  - SWC connectivity checks (`SWCChecker` + `SingleTree`)
+  - recommended external SWC preprocessing (`resample_sort_swc_external`).
+
+### Operational validation
+
+- Completed batch resample-sort run for `examples/origin_swc` to 10 um:
+  - input files: 500
+  - output files: 500 (`resampled_10um`)
+  - connectivity cleanup check: removed 0 files (`SingleTree` all passed).
+
 ## 2026-03-01
 
 ### Major engineering updates
