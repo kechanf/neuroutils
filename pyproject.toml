@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=67.8", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -47,9 +47,9 @@ dev = [
 neuroutils = "neuroutils.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/<your-org>/neuroutils"
-Repository = "https://github.com/<your-org>/neuroutils"
-Issues = "https://github.com/<your-org>/neuroutils/issues"
+Homepage = "https://github.com/kechanf/neuroutils"
+Repository = "https://github.com/kechanf/neuroutils"
+Issues = "https://github.com/kechanf/neuroutils/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
