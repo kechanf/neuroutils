@@ -34,7 +34,7 @@ dev = [
   "pre-commit>=3.8",
   "pytest>=7.3",
   "pytest-cov>=5.0",
-  "ruff>=0.6"
+  "ruff>=0.15.10"
 ]
 
 [project.urls]
